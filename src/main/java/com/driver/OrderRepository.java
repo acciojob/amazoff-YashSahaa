@@ -61,7 +61,7 @@ public class OrderRepository {
     }
 
     public Integer getCountOfUnassignedOrders(){
-        return orderDb.size()-assignDB.size();
+        return (orderDb.size()-assignDB.size());
     }
 
     public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId){
