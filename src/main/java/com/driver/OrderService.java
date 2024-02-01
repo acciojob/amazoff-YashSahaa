@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class OrderService {
     OrderRepository orderRepository ;
-    OrderService(){
+    public OrderService(){
         this.orderRepository = new OrderRepository();
     }
 

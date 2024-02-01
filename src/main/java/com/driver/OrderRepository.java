@@ -14,7 +14,7 @@ public class OrderRepository {
     HashMap<String,DeliveryPartner> deliveryPartnerDb;
     HashMap<String,List<String>> odDb;
     HashMap<String,String> assignDB ;
-    OrderRepository(){
+    public OrderRepository(){
         this.orderDb = new HashMap<>();
         this.deliveryPartnerDb = new HashMap<>();
         this.odDb = new HashMap<>();
