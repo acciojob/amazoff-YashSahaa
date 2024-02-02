@@ -74,19 +74,20 @@ public class OrderRepository {
 
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         List<String> orders = odDb.get(partnerId);
-        ArrayList<String> arr = new ArrayList<>();
+//        ArrayList<String> arr = new ArrayList<>();
         int last = 0;
         for(String id : orders){
             int dT = orderDb.get(id).getDeliveryTime();
-            String HH = Integer.toString(dT/60);
-            String MM = Integer.toString(dT%60);
-            arr.add(HH+":"+MM) ;
-//            if(dT>last){
-//                last=dT;
-//            }
+            if(dT>last){
+                last=dT;
+            }
         }
-        Collections.sort(arr);
-        return arr.get(arr.size()-1);
+//        Collections.sort(arr);
+//        return arr.get(arr.size()-1);
+        int h = last/60;
+        String HH = Integer.toString(h);
+        String MM = Integer.toString(last-(h*60));
+        return (HH+":"+MM) ;
     }
 
     public void deletePartnerById(String partnerId){
