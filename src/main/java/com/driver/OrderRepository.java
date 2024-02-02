@@ -3,10 +3,7 @@ package com.driver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class OrderRepository {
@@ -77,17 +74,19 @@ public class OrderRepository {
 
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         List<String> orders = odDb.get(partnerId);
+        ArrayList<String> arr = new ArrayList<>();
         int last = 0;
-        last = 0;
         for(String id : orders){
             int dT = orderDb.get(id).getDeliveryTime();
-            if(dT>last){
-                last=dT;
-            }
+            String HH = Integer.toString(dT/60);
+            String MM = Integer.toString(dT%60);
+            arr.add(HH+":"+MM) ;
+//            if(dT>last){
+//                last=dT;
+//            }
         }
-        String HH = Integer.toString(last/60);
-        String MM = Integer.toString(last%60);
-        return HH+":"+MM;
+        Collections.sort(arr);
+        return arr.get(arr.size()-1);
     }
 
     public void deletePartnerById(String partnerId){
