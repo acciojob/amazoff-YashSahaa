@@ -10,10 +10,7 @@ import java.util.List;
 
 @Service
 public class OrderService {
-    OrderRepository orderRepository ;
-    public OrderService(){
-        this.orderRepository = new OrderRepository();
-    }
+    OrderRepository orderRepository = new OrderRepository();
 
     public void addOrder(Order order){
         orderRepository.addOrder(order);
