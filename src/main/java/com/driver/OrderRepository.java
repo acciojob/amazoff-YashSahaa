@@ -85,8 +85,9 @@ public class OrderRepository {
 //        Collections.sort(arr);
 //        return arr.get(arr.size()-1);
         int h = last/60;
-        String HH = Integer.toString(h);
-        String MM = Integer.toString(last-(h*60));
+        int m = last-(h*60);
+        String HH = String.format("%02d", h);;
+        String MM = String.format("%02d", m);;
         return (HH+":"+MM) ;
     }
 
