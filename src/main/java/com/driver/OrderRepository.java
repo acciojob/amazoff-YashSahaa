@@ -42,7 +42,6 @@ public class OrderRepository {
     public Order getOrderById(String orderId){
         if(orderDb.containsKey(orderId)) return orderDb.get(orderId);
         return null;
-
     }
 
     public DeliveryPartner getPartnerById(String partnerId){
@@ -89,7 +88,6 @@ public class OrderRepository {
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         if(!odDb.containsKey(partnerId)) return null;
         List<String> orders = odDb.get(partnerId);
-//        ArrayList<String> arr = new ArrayList<>();
         int last = 0;
         for(String id : orders){
             int dT = orderDb.get(id).getDeliveryTime();
@@ -97,8 +95,6 @@ public class OrderRepository {
                 last=dT;
             }
         }
-//        Collections.sort(arr);
-//        return arr.get(arr.size()-1);
         int h = last/60;
         int m = last-(h*60);
         String HH = String.format("%02d", h);
@@ -127,5 +123,6 @@ public class OrderRepository {
                 orders.remove(i);
             }
         }
+        odDb.put(partnerId,orders);
     }
 }
