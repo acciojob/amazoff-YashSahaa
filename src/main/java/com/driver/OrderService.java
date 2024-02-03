@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Service
-@Configurable
+//@Configurable
 public class OrderService {
-    @Autowired
-    OrderRepository orderRepository ;
+//    @Autowired
+    OrderRepository orderRepository = new OrderRepository();
 
     public void addOrder(Order order){
         orderRepository.addOrder(order);
