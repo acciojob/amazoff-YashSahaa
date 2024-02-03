@@ -21,7 +21,7 @@ public class OrderRepository {
         String id = order.getId();
         int dT = order.getDeliveryTime();
         if(id.length()!=0 && dT!=0 && !orderDb.containsKey(id))
-        orderDb.put(id,order);
+            orderDb.put(id,order);
     }
 
     public void addPartner(String partnerId){
@@ -107,7 +107,7 @@ public class OrderRepository {
     }
 
     public void deletePartnerById(String partnerId){
-        if(!deliveryPartnerDb.containsKey(partnerId) || odDb.containsKey(partnerId)) return;
+        if(!deliveryPartnerDb.containsKey(partnerId)) return;
         deliveryPartnerDb.remove(partnerId);
         List<String> orders = odDb.get(partnerId);
         odDb.remove(partnerId);
