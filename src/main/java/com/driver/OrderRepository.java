@@ -32,7 +32,7 @@ public class OrderRepository {
     }
 
     public void addOrderPartnerPair(String orderId, String partnerId){
-        if(!orderDb.containsKey(orderId) || !deliveryPartnerDb.containsKey(partnerId)) return ;
+        if(!orderDb.containsKey(orderId) || !deliveryPartnerDb.containsKey(partnerId) || !odDb.containsKey(partnerId)) return ;
         odDb.get(partnerId).add(orderId);
         assignDB.put(orderId,partnerId);
         DeliveryPartner deliveryPartner = deliveryPartnerDb.get(partnerId);
@@ -107,7 +107,7 @@ public class OrderRepository {
     }
 
     public void deletePartnerById(String partnerId){
-        if(!deliveryPartnerDb.containsKey(partnerId)) return;
+        if(!deliveryPartnerDb.containsKey(partnerId) || odDb.containsKey(partnerId)) return;
         deliveryPartnerDb.remove(partnerId);
         List<String> orders = odDb.get(partnerId);
         odDb.remove(partnerId);
@@ -117,7 +117,7 @@ public class OrderRepository {
     }
 
     public void deleteOrderById(String orderId){
-        if(!orderDb.containsKey(orderId)) return;
+        if(!orderDb.containsKey(orderId) || !assignDB.containsKey(orderId)) return;
         orderDb.remove(orderId);
         String partnerId = assignDB.get(orderId);
         assignDB.remove(orderId);
