@@ -20,12 +20,12 @@ public class OrderRepository {
     public void addOrder(Order order){
         String id = order.getId();
         int dT = order.getDeliveryTime();
-        if(id.length()!=0 && dT!=0 )
+        if(id.length()!=0 && dT!=0 && !orderDb.containsKey(id))
         orderDb.put(id,order);
     }
 
     public void addPartner(String partnerId){
-        if(partnerId.length()!=0){
+        if(partnerId.length()!=0 && !deliveryPartnerDb.containsKey(partnerId)){
             deliveryPartnerDb.put(partnerId,new DeliveryPartner(partnerId));
             odDb.put(partnerId,new ArrayList<>());
         }
@@ -73,15 +73,17 @@ public class OrderRepository {
     }
 
     public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId){
-        if(!odDb.containsKey(partnerId)) return 0;
-        String arr[] = time.split(":");
-        int giventime = (Integer.parseInt(arr[0])*60) + Integer.parseInt(arr[1]);
-        List<String> orders = odDb.get(partnerId);
-        int count = 0;
-        for(String id : orders){
-            if(orderDb.get(id).getDeliveryTime()>giventime) count++ ;
+        if(odDb.containsKey(partnerId) && time.length()>0) {
+            String arr[] = time.split(":");
+            int giventime = (Integer.parseInt(arr[0]) * 60) + Integer.parseInt(arr[1]);
+            List<String> orders = odDb.get(partnerId);
+            int count = 0;
+            for (String id : orders) {
+                if (orderDb.get(id).getDeliveryTime() > giventime) count++;
+            }
+            return count;
         }
-        return count;
+        return 0;
     }
 
     public String getLastDeliveryTimeByPartnerId(String partnerId){
