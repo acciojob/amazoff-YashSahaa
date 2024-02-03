@@ -18,15 +18,21 @@ public class OrderRepository {
         this.assignDB = new HashMap<>();
     }
     public void addOrder(Order order){
-        orderDb.put(order.getId(),order);
+        String id = order.getId();
+        int dT = order.getDeliveryTime();
+        if(id.length()!=0 && dT!=0 )
+        orderDb.put(id,order);
     }
 
     public void addPartner(String partnerId){
-        deliveryPartnerDb.put(partnerId,new DeliveryPartner(partnerId));
-        odDb.put(partnerId,new ArrayList<>());
+        if(partnerId.length()!=0){
+            deliveryPartnerDb.put(partnerId,new DeliveryPartner(partnerId));
+            odDb.put(partnerId,new ArrayList<>());
+        }
     }
 
     public void addOrderPartnerPair(String orderId, String partnerId){
+        if(!orderDb.containsKey(orderId) || !deliveryPartnerDb.containsKey(partnerId)) return ;
         odDb.get(partnerId).add(orderId);
         assignDB.put(orderId,partnerId);
         DeliveryPartner deliveryPartner = deliveryPartnerDb.get(partnerId);
@@ -34,19 +40,24 @@ public class OrderRepository {
     }
 
     public Order getOrderById(String orderId){
-        return orderDb.get(orderId);
+        if(orderDb.containsKey(orderId)) return orderDb.get(orderId);
+        return null;
+
     }
 
     public DeliveryPartner getPartnerById(String partnerId){
-        return deliveryPartnerDb.get(partnerId);
+        if(deliveryPartnerDb.containsKey(partnerId)) return deliveryPartnerDb.get(partnerId);
+        return null;
     }
 
-    public Integer getOrderCountByPartnerId(String partnerId){
-        return deliveryPartnerDb.get(partnerId).getNumberOfOrders();
+    public int getOrderCountByPartnerId(String partnerId){
+        if(deliveryPartnerDb.containsKey(partnerId)) return deliveryPartnerDb.get(partnerId).getNumberOfOrders();
+        return 0;
     }
 
     public List<String> getOrdersByPartnerId(String partnerId){
-        return odDb.get(partnerId);
+        if(odDb.containsKey(partnerId)) return odDb.get(partnerId);
+        return  null;
     }
 
     public List<String> getAllOrders(){
@@ -62,6 +73,7 @@ public class OrderRepository {
     }
 
     public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId){
+        if(!odDb.containsKey(partnerId)) return 0;
         String arr[] = time.split(":");
         int giventime = (Integer.parseInt(arr[0])*60) + Integer.parseInt(arr[1]);
         List<String> orders = odDb.get(partnerId);
@@ -73,6 +85,7 @@ public class OrderRepository {
     }
 
     public String getLastDeliveryTimeByPartnerId(String partnerId){
+        if(!odDb.containsKey(partnerId)) return null;
         List<String> orders = odDb.get(partnerId);
 //        ArrayList<String> arr = new ArrayList<>();
         int last = 0;
@@ -92,6 +105,7 @@ public class OrderRepository {
     }
 
     public void deletePartnerById(String partnerId){
+        if(!deliveryPartnerDb.containsKey(partnerId)) return;
         deliveryPartnerDb.remove(partnerId);
         List<String> orders = odDb.get(partnerId);
         odDb.remove(partnerId);
@@ -101,6 +115,7 @@ public class OrderRepository {
     }
 
     public void deleteOrderById(String orderId){
+        if(!orderDb.containsKey(orderId)) return;
         orderDb.remove(orderId);
         String partnerId = assignDB.get(orderId);
         assignDB.remove(orderId);
