@@ -121,8 +121,10 @@ public class OrderRepository {
         for(int i=0;i<orders.size();i++){
             if(orders.get(i).equals(orderId)){
                 orders.remove(i);
+                break;
             }
         }
         odDb.put(partnerId,orders);
+        deliveryPartnerDb.get(partnerId).setNumberOfOrders(orders.size());
     }
 }
